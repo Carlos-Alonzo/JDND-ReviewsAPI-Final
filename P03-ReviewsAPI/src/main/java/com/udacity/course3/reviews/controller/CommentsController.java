@@ -1,13 +1,14 @@
 package com.udacity.course3.reviews.controller;
 
 import com.udacity.course3.reviews.entities.Comment;
-import com.udacity.course3.reviews.repositories.CommentRepository;
+import com.udacity.course3.reviews.entities.Review;
 import com.udacity.course3.reviews.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class CommentsController
 {
 
     // Wire needed Mongo repositories here
-    @Autowired
-    private CommentRepository commentRepository;
+//    @Autowired
+//    private CommentRepository commentRepository;
     @Autowired
     private ReviewRepository reviewRepository;
 
@@ -40,8 +41,11 @@ public class CommentsController
     {
         if(reviewRepository.findById(reviewId).isPresent())
         {
-            comment.setReviewid(reviewId);
-            return new ResponseEntity<>(commentRepository.save(comment), HttpStatus.OK);
+            Review theReview = reviewRepository.findById(reviewId).get();
+            theReview.addComment(comment);
+//            for (Comment c : reviewRepository.findAllCommentsById(theReview.getId()))
+//                System.out.println(c.toString());
+            return  ResponseEntity.status(HttpStatus.OK).body(null);
         }
         else
         throw new HttpServerErrorException(HttpStatus.NOT_FOUND);
@@ -60,8 +64,8 @@ public class CommentsController
     public List<Comment> listCommentsForReview(@PathVariable("reviewId") String reviewId)
     {
         if(reviewRepository.findById(reviewId).isPresent())
-                    return commentRepository.findAllCommentsByReviewid(reviewId);
+                    return reviewRepository.findAllCommentsById(reviewId);
         else
-        throw new HttpServerErrorException(HttpStatus.NOT_FOUND);
+            throw new HttpServerErrorException(HttpStatus.NOT_FOUND);
     }
 }

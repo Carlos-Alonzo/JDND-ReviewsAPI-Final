@@ -1,6 +1,7 @@
 package com.udacity.course3.reviews.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ public class Product
 {
 	public Product()	{ createdon = new Timestamp(System.currentTimeMillis());}
 
-	public Product( String brand, String name, String description, String productcode)
+	public Product(@NotNull String brand, @NotNull String name, @NotNull String description, @NotNull String productcode)
 	{
 		this.brand = brand;
 		this.name = name;
