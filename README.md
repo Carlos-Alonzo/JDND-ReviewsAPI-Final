@@ -1,2 +1,4 @@
-# JDND
-Public repository for the Java Developer Nanodegree program.
+#Review API Project Final Version
+
+This is a review API that implements JPA MySQL and MongoDB persistance. 
+
