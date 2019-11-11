@@ -3,7 +3,7 @@ package com.udacity.course3.reviews;
 import com.mongodb.MongoClientURI;
 import com.mongodb.WriteConcern;
 import com.udacity.course3.reviews.entities.Review;
-import com.udacity.course3.reviews.repositories.ReviewRepository;
+import com.udacity.course3.reviews.repositories.ReviewDocRepository;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.config.IMongodConfig;
@@ -30,10 +30,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DataMongoTest(excludeAutoConfiguration = {EmbeddedMongoAutoConfiguration.class})
 @ExtendWith(SpringExtension.class)
-public class MongoReviewRepoTests
+public class MongoReviewDocDocRepoTests
 {
 	@Autowired
-	private ReviewRepository reviewRepository;
+	private ReviewDocRepository reviewDocRepository;
 
 
 	@Test
@@ -47,7 +47,7 @@ public class MongoReviewRepoTests
 		testReview.setTitle("Wonderful product");
 		testReview.setText("Wonderful product");
 		testReview.setId(testReview.getReviewdate());
-		reviewRepository.save(testReview);
+		reviewDocRepository.save(testReview);
 		//then
 		Assert.assertNotNull(testReview.getId());
 	}
@@ -55,7 +55,7 @@ public class MongoReviewRepoTests
 	@Test
 	public void testRetrieveAllReviews()
 	{
-		Assert.assertNotNull(reviewRepository.findAll());
+		Assert.assertNotNull(reviewDocRepository.findAll());
 	}
 
 	@Configuration
@@ -97,7 +97,7 @@ public class MongoReviewRepoTests
 
 		@Bean
 		public MongoRepositoryFactoryBean mongoFactoryRepositoryBean(MongoTemplate template) {
-			MongoRepositoryFactoryBean mongoDbFactoryBean = new MongoRepositoryFactoryBean(ReviewRepository.class);
+			MongoRepositoryFactoryBean mongoDbFactoryBean = new MongoRepositoryFactoryBean(ReviewDocRepository.class);
 			mongoDbFactoryBean.setMongoOperations(template);
 
 			return mongoDbFactoryBean;

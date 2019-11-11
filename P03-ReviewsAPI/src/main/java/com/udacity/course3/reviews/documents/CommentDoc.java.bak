@@ -1,37 +1,24 @@
-package com.udacity.course3.reviews.entities;
+package com.udacity.course3.reviews.documents;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
-@Entity
-@Table(name="comments")
-public class Comment
+//@Document
+public class CommentDoc
 {
-	public Comment()	{ createdon =  new Timestamp(System.currentTimeMillis()).toString();}
+	public CommentDoc()	{ createdon =  new Timestamp(System.currentTimeMillis()).toString();}
 
-	public Comment(String title, String text)
+	public CommentDoc(String title, String text)
 	{
 		this.title=title;
 		this.text = text;
 		createdon = new Timestamp(System.currentTimeMillis()).toString();
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "reviewid", nullable = false)
-	private Review review;// = new Review();
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	@Column
-	@NotNull
+//	@Id
+//	private String id;
+//	private String reviewid;
 	private String title;
-	@Column
-	@NotNull
 	private String text;
-	@Column
-	@NotNull
 	private String createdon;
 
 //	public String getReviewid() { return reviewid;	}
@@ -63,11 +50,6 @@ public class Comment
 	{
 		this.createdon = createdon;
 	}
-	public Review getReview() 	{ 		return review; }
-	public void setReview(Review review) 	{ 		this.review = review; }
-	public long getId()	{ 		return id;  }
-	public void setId(long id) 	{		this.id = id; }
-
 	@Override
 	public String toString(){return "Title: " + title + " \n. Comment: " + text+ ", created on:" + createdon;}
 }

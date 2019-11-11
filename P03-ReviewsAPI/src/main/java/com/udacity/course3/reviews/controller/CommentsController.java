@@ -1,7 +1,9 @@
 package com.udacity.course3.reviews.controller;
 
+import com.udacity.course3.reviews.documents.ReviewDoc;
 import com.udacity.course3.reviews.entities.Comment;
-import com.udacity.course3.reviews.entities.Review;
+import com.udacity.course3.reviews.repositories.CommentRepository;
+import com.udacity.course3.reviews.repositories.ReviewDocRepository;
 import com.udacity.course3.reviews.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +22,13 @@ import java.util.List;
 public class CommentsController
 {
 
-    // Wire needed Mongo repositories here
-//    @Autowired
-//    private CommentRepository commentRepository;
+    // Wire needed Mongo and JPA repositories here
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private ReviewDocRepository reviewDocRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     /**
      * Creates a comment for a review.
@@ -39,12 +43,12 @@ public class CommentsController
     @RequestMapping(value = "/reviews/{reviewId}", method = RequestMethod.POST)
     public ResponseEntity<?> createCommentForReview(@PathVariable("reviewId") String reviewId, @Valid @RequestBody Comment comment)
     {
-        if(reviewRepository.findById(reviewId).isPresent())
+        if(reviewDocRepository.findById(reviewId).isPresent())
         {
-            Review theReview = reviewRepository.findById(reviewId).get();
-            theReview.addComment(comment);
-//            for (Comment c : reviewRepository.findAllCommentsById(theReview.getId()))
-//                System.out.println(c.toString());
+            ReviewDoc reviewDoc = reviewDocRepository.findById(reviewId).get();
+            reviewDoc.addComment(comment);
+
+            comment.setReview();
             return  ResponseEntity.status(HttpStatus.OK).body(null);
         }
         else
@@ -63,8 +67,8 @@ public class CommentsController
     @RequestMapping(value = "/reviews/{reviewId}", method = RequestMethod.GET)
     public List<Comment> listCommentsForReview(@PathVariable("reviewId") String reviewId)
     {
-        if(reviewRepository.findById(reviewId).isPresent())
-                    return reviewRepository.findAllCommentsById(reviewId);
+        if(reviewDocRepository.findById(reviewId).isPresent())
+                    return reviewDocRepository.findAllCommentsById(reviewId);
         else
             throw new HttpServerErrorException(HttpStatus.NOT_FOUND);
     }
