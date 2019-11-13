@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document
+@Document("review")
 public class ReviewDoc
 {
 	public ReviewDoc()	{ reviewdate = new Timestamp(System.currentTimeMillis()).toString();  comments = new ArrayList<Comment>();}

@@ -48,11 +48,12 @@ public class CommentsController
             ReviewDoc reviewDoc = reviewDocRepository.findById(reviewId).get();
             reviewDoc.addComment(comment);
 
-            comment.setReview();
-            return  ResponseEntity.status(HttpStatus.OK).body(null);
+            comment.setReview(reviewRepository.findById(Long.valueOf(reviewId)).get());
+            commentRepository.save(comment);
+            return  new ResponseEntity<Comment>(comment, HttpStatus.OK);
         }
         else
-        throw new HttpServerErrorException(HttpStatus.NOT_FOUND);
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     /**
@@ -68,7 +69,7 @@ public class CommentsController
     public List<Comment> listCommentsForReview(@PathVariable("reviewId") String reviewId)
     {
         if(reviewDocRepository.findById(reviewId).isPresent())
-                    return reviewDocRepository.findAllCommentsById(reviewId);
+            return commentRepository.findByReview(reviewRepository.findById(Long.valueOf(reviewId)).get());
         else
             throw new HttpServerErrorException(HttpStatus.NOT_FOUND);
     }

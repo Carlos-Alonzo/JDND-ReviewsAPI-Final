@@ -2,7 +2,7 @@ package com.udacity.course3.reviews;
 
 import com.mongodb.MongoClientURI;
 import com.mongodb.WriteConcern;
-import com.udacity.course3.reviews.entities.Review;
+import com.udacity.course3.reviews.documents.ReviewDoc;
 import com.udacity.course3.reviews.repositories.ReviewDocRepository;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodStarter;
@@ -37,23 +37,23 @@ public class MongoReviewDocDocRepoTests
 
 
 	@Test
-	public void testInsertNewReview()
+	public void testInsertNewReviewDoc()
 	{
 		//given
-		Review testReview = new Review();
-		testReview.setProductid(123456789l);
-		testReview.setReviewer("Carlos A.");
-		testReview.setRating(5);
-		testReview.setTitle("Wonderful product");
-		testReview.setText("Wonderful product");
-		testReview.setId(testReview.getReviewdate());
-		reviewDocRepository.save(testReview);
+		ReviewDoc testReviewDoc = new ReviewDoc();
+		testReviewDoc.setProductid(123456789l);
+		testReviewDoc.setReviewer("Carlos A.");
+		testReviewDoc.setRating(5);
+		testReviewDoc.setTitle("Wonderful product");
+		testReviewDoc.setText("Wonderful product");
+		testReviewDoc.setId(testReviewDoc.getReviewdate());
+		reviewDocRepository.save(testReviewDoc);
 		//then
-		Assert.assertNotNull(testReview.getId());
+		Assert.assertNotNull(testReviewDoc.getId());
 	}
 
 	@Test
-	public void testRetrieveAllReviews()
+	public void testRetrieveAllReviewDocs()
 	{
 		Assert.assertNotNull(reviewDocRepository.findAll());
 	}

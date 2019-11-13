@@ -17,12 +17,13 @@ public class Comment
 		createdon = new Timestamp(System.currentTimeMillis()).toString();
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "reviewid", nullable = false)
-	private Review review;// = new Review();
+	private Review review; // = new Review();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column( name ="commentid")
 	private long id;
 	@Column
 	@NotNull
@@ -33,17 +34,6 @@ public class Comment
 	@Column
 	@NotNull
 	private String createdon;
-
-//	public String getReviewid() { return reviewid;	}
-//	public void setReviewid(String reviewid) {		this.reviewid = reviewid; }
-//	public String getId()
-//	{
-//		return id;
-//	}
-//	public void setId(String id)
-//	{
-//		this.id = id;
-//	}
 
 	public String getTitle() {		return title;	}
 	public void setTitle(String title) 	{ this.title = title; }
